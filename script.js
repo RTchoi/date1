@@ -1,63 +1,79 @@
 const no = document.getElementById("no");
 
 
+let noX;
+let noY;
+
+
+
+window.onload=function(){
+
+let rect =
+no.getBoundingClientRect();
+
+
+noX = rect.left;
+
+noY = rect.top;
+
+
+}
+
+
+
+
 no.addEventListener(
 "mouseover",
 function(){
 
 
-let x =
-Math.random()*250;
+let moveDistance = 150;
 
 
-let y =
-Math.random()*200;
+let randomX =
+(Math.random()-0.5)
+* moveDistance;
 
 
-
-no.style.position="absolute";
-
-
-no.style.left=x+"px";
-
-no.style.top=y+"px";
-
-
-}
-
-);
+let randomY =
+(Math.random()-0.5)
+* moveDistance;
 
 
 
-const yes =
-document.getElementById("yes");
+noX += randomX;
 
-
-yes.onclick=function(){
-
-document.getElementById("page1")
-.classList.add("hidden");
-
-
-document.getElementById("page2")
-.classList.remove("hidden");
-
-
-}
+noY += randomY;
 
 
 
+// 화면 밖 방지
 
-document.getElementById("next")
-.onclick=function(){
-
-
-document.getElementById("page2")
-.classList.add("hidden");
+if(noX < 20)
+noX = 20;
 
 
-document.getElementById("page3")
-.classList.remove("hidden");
+if(noY < 20)
+noY = 20;
 
 
-}
+
+if(noX > window.innerWidth-100)
+noX = window.innerWidth-100;
+
+
+if(noY > window.innerHeight-100)
+noY = window.innerHeight-100;
+
+
+
+no.style.left =
+noX+"px";
+
+
+no.style.top =
+noY+"px";
+
+
+
+});
