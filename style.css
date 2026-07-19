@@ -103,7 +103,11 @@ cursor:pointer;
 
 background:#8e5bd9;
 
-position:relative;
+position:absolute;
+
+transition: 
+left 0.4s ease,
+top 0.4s ease;
 
 }
 
