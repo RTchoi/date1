@@ -16,9 +16,22 @@ yesBtn.addEventListener('click', function() {
     nextStep(1, 2);
 });
 
-// NO 버튼을 마우스/터치 좌표 기준으로 자석처럼 밀어내는 로직
+// [추가] 처음 도망치기 시작할 때 포지션을 전환하기 위한 변수
+let isFirstMove = true; 
+
 function handleNoButtonMove(clientX, clientY) {
     const btnRect = noBtn.getBoundingClientRect();
+    
+    // ★ [핵심 추가] 처음 마우스가 다가왔을 때, 현재 중앙에 있던 그 위치 그대로 fixed 좌표로 고정합니다.
+    // 이렇게 해야 포지션이 변할 때 버튼이 엉뚱한 곳으로 튀지 않고 그 자리에서 자연스럽게 도망을 시작합니다.
+    if (isFirstMove) {
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = btnRect.left + 'px';
+        noBtn.style.top = btnRect.top + 'px';
+        isFirstMove = false;
+        return; // 첫 감지 때는 위치 스타일만 변환하고 다음 움직임부터 본격적으로 밀어냅니다.
+    }
+
     const btnCenterX = btnRect.left + btnRect.width / 2;
     const btnCenterY = btnRect.top + btnRect.height / 2;
     
@@ -26,19 +39,19 @@ function handleNoButtonMove(clientX, clientY) {
     const deltaY = btnCenterY - clientY;
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     
-    const avoidanceRadius = 80; // 마우스 접근 감지 반경 (px)
+    const avoidanceRadius = 100; // 감지 반경
     
     if (distance < avoidanceRadius) {
         const force = (avoidanceRadius - distance) / avoidanceRadius;
+        const forceMult = 150; // 밀쳐내는 세기
         
-        // 반대 방향 밀쳐내기 (숫자 80을 조절하면 튕겨 나가는 세기가 변함)
-        let moveX = (deltaX / distance) * force * 80;
-        let moveY = (deltaY / distance) * force * 80;
+        let moveX = (deltaX / distance) * force * forceMult;
+        let moveY = (deltaY / distance) * force * forceMult;
         
         let newLeft = btnRect.left + moveX;
         let newTop = btnRect.top + moveY;
         
-        // 화면 밖 탈출 방지 펜스
+        // 화면 밖 탈출 방지
         const padding = 20;
         if (newLeft < padding) newLeft = padding;
         if (newLeft > window.innerWidth - btnRect.width - padding) {
@@ -53,6 +66,17 @@ function handleNoButtonMove(clientX, clientY) {
         noBtn.style.top = newTop + 'px';
     }
 }
+
+// 마우스 및 터치 이벤트 연결 (기존과 동일)
+window.addEventListener('mousemove', function(e) {
+    handleNoButtonMove(e.clientX, e.clientY);
+});
+
+window.addEventListener('touchmove', function(e) {
+    if (e.touches.length > 0) {
+        handleNoButtonMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
+}, { passive: false });
 
 // PC 화면 전체 마우스 움직임 감지
 window.addEventListener('mousemove', function(e) {
