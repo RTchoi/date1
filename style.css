@@ -83,15 +83,17 @@ button:active {
     background-color: #e86c8d;
     color: white;
     position: relative;
+    /* ★ YES 버튼 고정: NO 버튼이 어떻게 움직이든 자기 자리를 절대 지키도록 설정 */
+    transform: none !important; 
     z-index: 10;
 }
 
-/* ★ NO 버튼 스타일: PC 화면 전체를 무대로 부드럽게 감속하며 움직임 */
 .btn-no {
     background-color: #9b72aa;
     color: white;
-    position: relative; /* relative로 시작하여 정중앙에 고정 */
-    transition: left 0.12s ease-out, top 0.12s ease-out; /* 반응성을 높인 감속 속도 */
+    position: relative; /* 처음엔 YES 버튼 옆에 예쁘게 안착 */
+    transition: left 0.12s ease-out, top 0.12s ease-out;
+    touch-action: none;
     z-index: 5;
 }
 
