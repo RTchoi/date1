@@ -4,181 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will you go on a date with me? 🌸</title>
-    <style>
-        /* 기본 스타일 세팅 (핑크빛 그라데이션 배경) */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-        }
-
-        body {
-            background: linear-gradient(180deg, #ffeef2 0%, #fcd2dc 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        /* 하얀색 카드 컨테이너 */
-        .card {
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 24px;
-            padding: 30px 20px;
-            width: 90%;
-            max-width: 360px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            display: none; /* 기본적으로 숨겨두고 자바스크립트로 하나씩 보여줌 */
-        }
-
-        /* 첫 번째 페이지는 바로 보이도록 설정 */
-        .card.active {
-            display: block;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 공통 텍스트 스타일 */
-        h2 {
-            color: #4a2c3a;
-            font-size: 22px;
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
-
-        p {
-            color: #7c626d;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        /* 버튼 기본 스타일 */
-        button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        button:active {
-            transform: scale(0.95);
-        }
-
-        .btn-yes {
-            background-color: #e86c8d;
-            color: white;
-            margin-right: 10px;
-        }
-
-        /* ★ No 버튼 핵심 스타일: 부드러운 이동을 위한 transition */
-        .btn-no {
-            background-color: #9b72aa;
-            color: white;
-            position: relative; /* 도망치기 위해 위치 기준 설정 */
-            transition: all 0.3s ease-out; /* 끊기지 않고 부드럽게 미끄러지듯 이동 */
-            touch-action: none; /* 모바일에서 터치 스크롤 방지 */
-        }
-
-        /* 음식 선택 그리드 (2열 3행) */
-        .food-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .food-item {
-            background: #fff5f7;
-            border: 2px solid transparent;
-            border-radius: 16px;
-            padding: 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .food-item.selected {
-            border-color: #e86c8d;
-            background: #ffe6eb;
-        }
-
-        .food-item span {
-            font-size: 30px;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        /* 입력 폼 스타일 (날짜/시간) */
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            font-size: 16px;
-            outline: none;
-        }
-
-        input:focus, select:focus {
-            border-color: #e86c8d;
-        }
-
-        .btn-next {
-            background-color: #e86c8d;
-            color: white;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        /* 이미지 스타일 */
-        .img-box {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 15px;
-            border-radius: 20px;
-            overflow: hidden;
-            background: #eee;
-        }
-
-        .img-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    </style>
+    <!-- 외부에 있는 CSS 스타일시트 파일 연결 -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- 1단계: YES or NO 질문 -->
     <div id="step1" class="card active">
-        <div class="img-box">
-            <!-- 임시 강아지 이미지 (원하는 이미지 경로로 변경 가능) -->
-            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500" alt="cute dog">
-        </div>
+        <div class="emoji-icon">🐶</div>
         <h2>🌸 Will you go on a date with me? 🌸</h2>
-        <div style="position: relative; height: 60px; margin-top: 20px;">
-            <button class="btn-yes" onclick="nextStep(2)">YES ♥</button>
+        <div style="margin-top: 30px; position: relative; height: 60px;">
+            <button class="btn-yes" id="yesBtn">YES ♥</button>
             <button class="btn-no" id="noBtn">no 🐾</button>
         </div>
     </div>
 
     <!-- 2단계: 진짜인지 확인 -->
     <div id="step2" class="card">
-        <div class="img-box">
-            <img src="https://images.unsplash.com/photo-1531928351158-2f736078e0a1?w=500" alt="surprised">
-        </div>
-        <h2>*잠깐 진짜 예스라고?!*<br>(감격 😭)</h2>
+        <div class="emoji-icon">😭</div>
+        <h2>*잠깐 진짜 예스라고?!*<br>(감격...)</h2>
         <p>I was so ready for you to say no 🥺</p>
-        <button class="btn-next" onclick="nextStep(3)">okay okay! →</button>
+        <button class="btn-next" onclick="nextStep(2, 3)">okay okay! →</button>
     </div>
 
     <!-- 3단계: 날짜 및 시간 정하기 -->
@@ -186,10 +32,10 @@
         <h2>*그럼.. 언제가 괜찮아?*</h2>
         <p>So... when are you free?</p>
         
-        <label style="display:block; text-align:left; margin-bottom:5px; font-size:12px; color:#7c626d;">Pick a Day 📅</label>
+        <label class="input-label">Pick a Day 📅</label>
         <input type="date" id="dateInput">
 
-        <label style="display:block; text-align:left; margin-bottom:5px; font-size:12px; color:#7c626d;">What Time? ⏰</label>
+        <label class="input-label">What Time? ⏰</label>
         <select id="timeInput">
             <option value="">Select a time...</option>
             <option value="12:00">점심 12:00</option>
@@ -199,7 +45,7 @@
             <option value="19:00">저녁 07:00</option>
         </select>
 
-        <button class="btn-next" onclick="validateStep3()">set the date! ♥</button>
+        <button class="btn-next" id="dateSubmitBtn">set the date! ♥</button>
     </div>
 
     <!-- 4단계: 음식 종류 고르기 -->
@@ -208,124 +54,28 @@
         <p>What are we feeling? (pick your vibe)</p>
         
         <div class="food-grid">
-            <div class="food-item" onclick="selectFood(this, '피자 🍕')">
-                <span>🍕</span>피자
-            </div>
-            <div class="food-item" onclick="selectFood(this, '초밥 🍣')">
-                <span>🍣</span>초밥
-            </div>
-            <div class="food-item" onclick="selectFood(this, '버거 🍔')">
-                <span>🍔</span>버거
-            </div>
-            <div class="food-item" onclick="selectFood(this, '파스타 🍝')">
-                <span>🍝</span>파스타
-            </div>
-            <div class="food-item" onclick="selectFood(this, '타코 🌮')">
-                <span>🌮</span>타코
-            </div>
-            <div class="food-item" onclick="selectFood(this, '라멘 🍜')">
-                <span>🍜</span>라멘
-            </div>
+            <div class="food-item" data-food="피자 🍕"><span>🍕</span>피자</div>
+            <div class="food-item" data-food="초밥 🍣"><span>🍣</span>초밥</div>
+            <div class="food-item" data-food="버거 🍔"><span>🍔</span>버거</div>
+            <div class="food-item" data-food="파스타 🍝"><span>🍝</span>파스타</div>
+            <div class="food-item" data-food="타코 🌮"><span>🌮</span>타코</div>
+            <div class="food-item" data-food="라멘 🍜"><span>🍜</span>라멘</div>
         </div>
 
-        <button class="btn-next" onclick="submitSelection()">선택 완료! ✨</button>
+        <button class="btn-next" id="foodSubmitBtn">선택 완료! ✨</button>
     </div>
 
-    <!-- 5단계: 정한 시간에 따른 최종 메세지 -->
+    <!-- 5단계: 최종 메시지 -->
     <div id="step5" class="card">
         <h2>glad you didn't say no.<br>be ready by <span id="finalTime" style="color:#e86c8d;">6</span>, I'm coming to get you 🚗</h2>
-        <p style="font-style: italic; font-size: 12px; margin-top: 20px;">
-            P.S. 우리 <span id="finalFood" style="font-weight:bold;">음식</span> 먹으러 가는 거다? 
-            <br>날짜는 <span id="finalDate" style="font-weight:bold;">날짜</span>로 기억해둘게!
+        <p style="font-style: italic; font-size: 13px; margin-top: 25px; color:#7c626d;">
+            P.S. 우리 <span id="finalFood" style="font-weight:bold; color:#e86c8d;">음식</span> 먹으러 가는 거다? 
+            <br>날짜는 <span id="finalDate" style="font-weight:bold; color:#e86c8d;">날짜</span>로 기억해둘게!
         </p>
-        <div style="color: #e86c8d; font-size: 20px; margin-top: 15px;">♥ ♥ ♥ ♥ ♥</div>
+        <div style="color: #e86c8d; font-size: 20px; margin-top: 20px;">♥ ♥ ♥ ♥ ♥</div>
     </div>
 
-    <script>
-        // --- 1. 화면 전환 기능 ---
-        function nextStep(stepNumber) {
-            // 모든 카드를 다 숨깁니다.
-            document.querySelectorAll('.card').forEach(card => {
-                card.classList.remove('active');
-            });
-            // 원하는 단계의 카드만 보여줍니다.
-            document.getElementById('step' + stepNumber).classList.add('active');
-        }
-
-        // --- 2. 1번 단계: NO 버튼 도망치기 핵심 자바스크립트 ---
-        const noBtn = document.getElementById('noBtn');
-
-        // 버튼 이동 함수 (부드럽게 위치를 옮김)
-        function moveButton() {
-            // 화면(윈도우)의 너비와 높이에서 버튼 크기만큼을 뺀 움직임 반경 계산
-            const maxWidth = window.innerWidth - noBtn.offsetWidth - 40;
-            const maxHeight = window.innerHeight - noBtn.offsetHeight - 40;
-
-            // 랜덤한 위치 좌표 생성
-            // 폰 화면 안에서만 움직이도록 최소값과 최대값 조절
-            const randomX = Math.max(20, Math.floor(Math.random() * maxWidth));
-            const randomY = Math.max(20, Math.floor(Math.random() * maxHeight));
-
-            // 버튼을 절대 좌표(fixed)로 바꾸고 랜덤 위치로 부드럽게 쏴줍니다.
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
-        }
-
-        // 마우스가 다가오거나(PC), 손가락이 닿을 때(모바일) 도망치기 이벤트 등록
-        noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', function(e) {
-            e.preventDefault(); // 모바일 터치 기본 동작 방지
-            moveButton();
-        });
-
-
-        // --- 3. 3번 단계: 날짜/시간 입력 검증 ---
-        function validateStep3() {
-            const date = document.getElementById('dateInput').value;
-            const time = document.getElementById('timeInput').value;
-
-            if(!date || !time) {
-                alert("날짜와 시간을 모두 골라줘! ⏰");
-                return;
-            }
-            nextStep(4);
-        }
-
-        // --- 4. 4번 단계: 음식 선택하기 ---
-        let selectedFoodName = "";
-        function selectFood(element, foodName) {
-            // 이전에 선택된 형제 항목들 하이라이트 해제
-            document.querySelectorAll('.food-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            // 클릭한 항목만 하이라이트
-            element.classList.add('selected');
-            selectedFoodName = foodName;
-        }
-
-        // --- 5. 5번 단계: 데이터 반영 및 최종 화면 보여주기 ---
-        function submitSelection() {
-            if(!selectedFoodName) {
-                alert("땡기는 음식을 하나 골라줘! 😋");
-                return;
-            }
-
-            const dateValue = document.getElementById('dateInput').value;
-            const timeValue = document.getElementById('timeInput').value;
-
-            // 시간에서 '시' 부분만 추출하거나 그대로 보여주기
-            // 예: "18:00" -> "6시" 혹은 입력된 시간 그대로
-            const hour = timeValue.split(':')[0];
-            const displayHour = hour > 12 ? `오후 ${hour - 12}시` : `오전 ${hour}시`;
-
-            // 최종 페이지 텍스트 채워넣기
-            document.getElementById('finalTime').innerText = displayHour;
-            document.getElementById('finalDate').innerText = dateValue;
-            document.getElementById('finalFood').innerText = selectedFoodName;
-
-            nextStep(5);
-        }
-    </script>
+    <!-- 외부에 있는 자바스크립트 파일 연결 -->
+    <script src="script.js"></script>
 </body>
 </html>
