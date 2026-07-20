@@ -1,4 +1,3 @@
-/* 기본 스타일 초기화 및 배경 세팅 */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -10,56 +9,64 @@ body {
     background: linear-gradient(180deg, #ffeef2 0%, #fcd2dc 100%);
     height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* 가로 기준 정중앙 정렬 */
+    align-items: center;     /* 세로 기준 정중앙 정렬 */
     overflow: hidden;
 }
 
-/* 카드 컨테이너 스타일 */
 .card {
     background-color: rgba(255, 255, 255, 0.95);
     border-radius: 24px;
-    padding: 30px 20px;
-    width: 90%;
-    max-width: 360px;
+    padding: 40px 30px;
+    width: 100%;
+    max-width: 420px; /* PC에서도 안정적인 박스 너비 */
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    display: none; /* 기본 숨김 */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    display: none;
 }
 
-/* 활성화된 카드만 보여줌 */
 .card.active {
     display: block !important;
     animation: fadeIn 0.4s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 h2 {
     color: #4a2c3a;
-    font-size: 22px;
+    font-size: 24px;
     margin-bottom: 20px;
     line-height: 1.4;
 }
 
 p {
     color: #7c626d;
-    font-size: 14px;
-    margin-bottom: 20px;
+    font-size: 15px;
+    margin-bottom: 25px;
 }
 
 .emoji-icon {
-    font-size: 60px;
-    margin-bottom: 15px;
+    font-size: 64px;
+    margin-bottom: 20px;
     display: inline-block;
 }
 
-/* 버튼 스타일들 */
+/* ★ 버튼 컨테이너: 초기 버튼 정중앙 정렬의 핵심 */
+.btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+    position: relative;
+    width: 100%;
+}
+
 button {
-    padding: 12px 24px;
+    padding: 14px 28px;
     border: none;
     border-radius: 50px;
     font-size: 16px;
@@ -75,19 +82,16 @@ button:active {
 .btn-yes {
     background-color: #e86c8d;
     color: white;
-    margin-right: 10px;
     position: relative;
     z-index: 10;
 }
 
-/* ★ NO 버튼: 0.15초 딜레이로 쫄랑쫄랑 쫓겨나는 맛 구현 */
+/* ★ NO 버튼 스타일: PC 화면 전체를 무대로 부드럽게 감속하며 움직임 */
 .btn-no {
     background-color: #9b72aa;
     color: white;
-    /* [수정] 처음에는 고정 위치가 아니라 YES 버튼 옆에 자연스럽게 배치되도록 relative로 시작합니다. */
-    position: relative; 
-    transition: left 0.15s ease-out, top 0.15s ease-out;
-    touch-action: none;
+    position: relative; /* relative로 시작하여 정중앙에 고정 */
+    transition: left 0.12s ease-out, top 0.12s ease-out; /* 반응성을 높인 감속 속도 */
     z-index: 5;
 }
 
