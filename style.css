@@ -226,7 +226,7 @@ select {
     box-shadow: 0 4px 12px rgba(232, 108, 141, 0.12);
 }
 
-/* [2] 5단계 결과창 카드 배경에 들어가는 다른 사진 설정 */
+/* 5단계 카드 불투명 배경사진 커스텀 기법 */
 .card-bg-photo::before {
     content: "";
     position: absolute;
@@ -235,12 +235,12 @@ select {
     width: 100%;
     height: 100%;
     
-    /* 5단계 배경용 다른 사진의 파일명을 여기에 적어주세요 */
+    /* 실제 에셋 이름인 final-background.jpg로 완벽 매칭 */
     background-image: url('final-background.jpg'); 
     
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.15; /* 글자가 잘 보이도록 투명도 유지 (0.1 ~ 0.2 추천) */
+    opacity: 0.18;                /* 텍스트가 잘 보이도록 은은한 투명도 유지 */
     z-index: 1;
 }
