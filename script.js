@@ -8,16 +8,16 @@ emailjs.init(EMAILJS_PUBLIC_KEY);
 
 let selectedFoodName = "";
 
-// 단계 이동 함수 (HTML의 onclick에서도 찾을 수 있도록 전역 배치)
-function nextStep(currentStep, nextStepNum) {
+// 단계 이동 함수 (HTML onclick과 호환되도록 전역 배치)
+function nextStep(currentStep, targetStep) {
     const currentCard = document.getElementById('step' + currentStep);
-    const nextCard = document.getElementById('step' + nextStepNum);
+    const nextCard = document.getElementById('step' + targetStep);
     
     if (currentCard) currentCard.classList.remove('active');
     if (nextCard) nextCard.classList.add('active');
 }
 
-// HTML의 모든 요소들이 브라우저에 완전히 로드된 후 안전하게 실행
+// 브라우저가 HTML을 모두 읽은 뒤 안전하게 버튼을 바인딩
 document.addEventListener('DOMContentLoaded', function() {
     
     // --- 1단계 버튼 제어 ---
@@ -27,14 +27,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let isFirstMove = true; 
 
-    // YES 버튼 클릭 시 2단계로 부드럽게 이동
     if (yesBtn) {
         yesBtn.addEventListener('click', function() {
             nextStep(1, 2);
         });
     }
 
-    // NO 버튼 회피 로직
     function handleNoButtonMove(clientX, clientY) {
         if (!step1Card || !noBtn || !yesBtn) return;
         if (!step1Card.classList.contains('active')) return;
@@ -96,7 +94,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // 마우스 및 터치 이벤트 연결
     window.addEventListener('mousemove', function(e) {
         handleNoButtonMove(e.clientX, e.clientY);
     });
@@ -108,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { passive: false });
 
 
-    // --- 3단계 입력 검증 (날짜/시간 선택 완료) ---
+    // --- 3단계 입력 검증 ---
     const dateSubmitBtn = document.getElementById('dateSubmitBtn');
     if (dateSubmitBtn) {
         dateSubmitBtn.addEventListener('click', function() {
@@ -120,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const date = dateInput.value;
             const timeText = timeSelect.options[timeSelect.selectedIndex].text;
 
-            if(!date || !timeSelect.value) {
+            if (!date || !timeSelect.value) {
                 alert("날짜와 시간을 모두 골라줘! ⏰");
                 return;
             }
@@ -144,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const foodSubmitBtn = document.getElementById('foodSubmitBtn');
     if (foodSubmitBtn) {
         foodSubmitBtn.addEventListener('click', function() {
-            if(!selectedFoodName) {
+            if (!selectedFoodName) {
                 alert("땡기는 음식을 하나 골라줘! 😋");
                 return;
             }
@@ -157,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const dateValue = dateInput.value;
             const displayTime = timeSelect.dataset.displayText || timeSelect.value; 
 
-            // 5단계 결과창 텍스트 바인딩
             const finalTimeEl = document.getElementById('finalTime');
             const finalDateEl = document.getElementById('finalDate');
             const finalFoodEl = document.getElementById('finalFood');
@@ -166,10 +162,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (finalDateEl) finalDateEl.innerText = dateValue;
             if (finalFoodEl) finalFoodEl.innerText = selectedFoodName;
 
-            // 5단계 결과창으로 카드 전환
             nextStep(4, 5);
 
-            // EmailJS로 결과 발송
             const templateParams = {
                 finalDate: dateValue,
                 finalTime: displayTime,
