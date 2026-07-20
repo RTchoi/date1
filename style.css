@@ -236,7 +236,7 @@ select {
     height: 100%;
     
     /* 5단계 배경용 다른 사진의 파일명을 여기에 적어주세요 */
-    background-image: url('final-background.png'); 
+    background-image: url('final-background.jpg'); 
     
     background-size: cover;
     background-position: center;
