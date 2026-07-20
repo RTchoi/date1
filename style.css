@@ -1,0 +1,145 @@
+/* 기본 스타일 초기화 및 배경 세팅 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+}
+
+body {
+    background: linear-gradient(180deg, #ffeef2 0%, #fcd2dc 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 카드 컨테이너 스타일 */
+.card {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 24px;
+    padding: 30px 20px;
+    width: 90%;
+    max-width: 360px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    display: none; /* 기본 숨김 */
+}
+
+/* 활성화된 카드만 보여줌 */
+.card.active {
+    display: block !important;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+    color: #4a2c3a;
+    font-size: 22px;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+p {
+    color: #7c626d;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.emoji-icon {
+    font-size: 60px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+/* 버튼 스타일들 */
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.btn-yes {
+    background-color: #e86c8d;
+    color: white;
+    margin-right: 10px;
+    position: relative;
+    z-index: 10;
+}
+
+/* ★ NO 버튼: 0.15초 딜레이로 쫄랑쫄랑 쫓겨나는 맛 구현 */
+.btn-no {
+    background-color: #9b72aa;
+    color: white;
+    position: fixed;
+    transition: left 0.15s ease-out, top 0.15s ease-out;
+    touch-action: none;
+    z-index: 5;
+}
+
+/* 4단계 음식 그리드 */
+.food-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.food-item {
+    background: #fff5f7;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.food-item.selected {
+    border-color: #e86c8d;
+    background: #ffe6eb;
+}
+
+.food-item span {
+    font-size: 30px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 3단계 입력창 */
+.input-label {
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #7c626d;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+}
+
+.btn-next {
+    background-color: #e86c8d;
+    color: white;
+    width: 100%;
+    margin-top: 10px;
+}
