@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // NO 버튼 회피 로직
     function handleNoButtonMove(clientX, clientY) {
-        if (!step1Card || !noBtn || !yesBtn) return;
+        if (!step1Card || !btn-no || !btn-yes) return;
         if (!step1Card.classList.contains('active')) return;
 
         const btnRect = btn-no.getBoundingClientRect();
