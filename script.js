@@ -1,7 +1,7 @@
 // ★ [EmailJS 설정 값 입력] 본인의 정보로 채워주세요
-const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY"; 
-const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
-const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+const EMAILJS_PUBLIC_KEY = "m-Z9GybMe0U0m-dr5"; 
+const EMAILJS_SERVICE_ID = "service_awiflcx";
+const EMAILJS_TEMPLATE_ID = "template_lda67yh";
 
 // SDK 초기화
 emailjs.init(EMAILJS_PUBLIC_KEY);
