@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(function(response) {
                     console.log('이메일 전송 성공!', response.status, response.text);
                     if (statusDiv) {
-                        statusDiv.innerText = "성공적으로 내 이메일로 발송 완료! 📬";
+                        statusDiv.innerText = "오케이 접수했습니다! 📬";
                         statusDiv.style.color = "#4a2c3a";
                     }
                 }, function(error) {
