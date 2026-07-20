@@ -84,7 +84,8 @@ button:active {
 .btn-no {
     background-color: #9b72aa;
     color: white;
-    position: fixed;
+    /* [수정] 처음에는 고정 위치가 아니라 YES 버튼 옆에 자연스럽게 배치되도록 relative로 시작합니다. */
+    position: relative; 
     transition: left 0.15s ease-out, top 0.15s ease-out;
     touch-action: none;
     z-index: 5;
