@@ -9,6 +9,7 @@ function nextStep(currentStep, nextStep) {
 const yesBtn = document.getElementById('yesBtn');
 const noBtn = document.getElementById('noBtn');
 
+// YES 버튼은 클릭 시 군더더기 없이 바로 2단계로 고정 이동
 yesBtn.addEventListener('click', function() {
     nextStep(1, 2);
 });
@@ -18,7 +19,8 @@ let isFirstMove = true;
 function handleNoButtonMove(clientX, clientY) {
     const btnRect = noBtn.getBoundingClientRect();
     
-    // ★ [PC 보완] 마우스가 처음 닿을 때, 그 중앙에 정렬되어 있던 실시간 위치 좌표를 그대로 계승합니다.
+    // ★ [핵심 보완] NO 버튼이 처음 도망갈 때, YES 버튼의 레이아웃 위치를 건드리지 않도록
+    // 오직 NO 버튼의 스타일만 fixed로 분리하여 튕겨 나가게 만듭니다.
     if (isFirstMove) {
         noBtn.style.position = 'fixed';
         noBtn.style.left = btnRect.left + 'px';
@@ -34,13 +36,11 @@ function handleNoButtonMove(clientX, clientY) {
     const deltaY = btnCenterY - clientY;
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     
-    // PC 화면을 고려해 감지 반경을 기존보다 살짝 넓혔습니다. (120px)
-    const avoidanceRadius = 120; 
+    const avoidanceRadius = 120; // 마우스 감지 반경
     
     if (distance < avoidanceRadius) {
         const force = (avoidanceRadius - distance) / avoidanceRadius;
-        // 도망치는 힘의 세기 조정
-        const forceMult = 160; 
+        const forceMult = 160; // 도망치는 힘의 세기
         
         let moveX = (deltaX / distance) * force * forceMult;
         let moveY = (deltaY / distance) * force * forceMult;
@@ -48,7 +48,7 @@ function handleNoButtonMove(clientX, clientY) {
         let newLeft = btnRect.left + moveX;
         let newTop = btnRect.top + moveY;
         
-        // 거대한 PC 브라우저 모니터 화면 전체를 기준으로 밖으로 안 나가게 제한
+        // 화면 전체 화면 이탈 방지
         const padding = 30;
         if (newLeft < padding) newLeft = padding;
         if (newLeft > window.innerWidth - btnRect.width - padding) {
@@ -63,6 +63,17 @@ function handleNoButtonMove(clientX, clientY) {
         noBtn.style.top = newTop + 'px';
     }
 }
+
+// 마우스 및 터치 이벤트 리스너
+window.addEventListener('mousemove', function(e) {
+    handleNoButtonMove(e.clientX, e.clientY);
+});
+
+window.addEventListener('touchmove', function(e) {
+    if (e.touches.length > 0) {
+        handleNoButtonMove(e.touches[0].clientX, e.touches[0].clientY);
+    }
+}, { passive: false });
 
 // PC 환경용 마우스 이벤트 연결
 window.addEventListener('mousemove', function(e) {
