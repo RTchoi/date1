@@ -22,14 +22,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // --- 1단계 버튼 제어 ---
     const step1Card = document.getElementById('step1');
-    const yesBtn = document.getElementById('yesBtn');
-    const noBtn = document.getElementById('noBtn');
+    const btn-yes = document.getElementById('btn-yes');
+    const btn-no = document.getElementById('btn-no');
     
     let isFirstMove = true; 
 
     // YES 버튼 클릭 시 2단계로 부드럽게 이동
-    if (yesBtn) {
-        yesBtn.addEventListener('click', function() {
+    if (btn-yes) {
+        btn-yes.addEventListener('click', function() {
             nextStep(1, 2);
         });
     }
@@ -39,24 +39,24 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!step1Card || !noBtn || !yesBtn) return;
         if (!step1Card.classList.contains('active')) return;
 
-        const btnRect = noBtn.getBoundingClientRect();
+        const btnRect = btn-no.getBoundingClientRect();
         
         if (isFirstMove) {
             const cardRect = step1Card.getBoundingClientRect();
             step1Card.style.minHeight = cardRect.height + 'px';
 
-            const yesRect = yesBtn.getBoundingClientRect();
-            const noRect = noBtn.getBoundingClientRect();
+            const yesRect = btn-yes.getBoundingClientRect();
+            const noRect = btn-no.getBoundingClientRect();
 
-            yesBtn.style.position = 'fixed';
-            yesBtn.style.left = yesRect.left + 'px';
-            yesBtn.style.top = yesRect.top + 'px';
-            yesBtn.style.margin = '0';
+            btn-yes.style.position = 'fixed';
+            btn-yes.style.left = yesRect.left + 'px';
+            btn-yes.style.top = yesRect.top + 'px';
+            btn-yes.style.margin = '0';
 
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = noRect.left + 'px';
-            noBtn.style.top = noRect.top + 'px';
-            noBtn.style.margin = '0';
+            btn-no.style.position = 'fixed';
+            btn-no.style.left = noRect.left + 'px';
+            btn-no.style.top = noRect.top + 'px';
+            btn-no.style.margin = '0';
 
             isFirstMove = false;
             return; 
@@ -91,8 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 newTop = window.innerHeight - btnRect.height - padding;
             }
             
-            noBtn.style.left = newLeft + 'px';
-            noBtn.style.top = newTop + 'px';
+            btn-no.style.left = newLeft + 'px';
+            btn-no.style.top = newTop + 'px';
         }
     }
 
