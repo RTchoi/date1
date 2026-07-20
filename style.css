@@ -64,18 +64,6 @@ p {
     display: inline-block;
 }
 
-/* ★ [수정] 1단계 photo.png 사진 크기를 아담하게 강제 고정하는 스타일 */
-.profile-img {
-    width: 75px !important;      /* 이모지 감성에 맞춘 아담한 가로 크기 */
-    height: 75px !important;     /* 세로 크기 고정 */
-    object-fit: cover;           /* 사진 비율 유지하며 영역 꽉 채우기 */
-    border-radius: 50%;          /* 완벽한 원형으로 자르기 */
-    border: 2.5px solid #ffe1e8; /* 부드러운 핑크 테두리 */
-    margin: 0 auto 20px auto;    /* 중앙 정렬 및 아래 여백 */
-    display: block;              /* 블록 요소화하여 정렬 안정화 */
-    box-shadow: 0 4px 12px rgba(232, 108, 141, 0.12);
-}
-
 .btn-container {
     display: flex;
     justify-content: center;
@@ -222,7 +210,23 @@ select {
     margin-top: 10px;
 }
 
-/* 5단계 카드 불투명 배경사진 커스텀 기법 */
+/* ==========================================
+   ★ 여기서부터 사진 파일명을 자유롭게 바꿔주세요!
+   ========================================== */
+
+/* [1] 1단계 카드에 들어가는 내 프로필 사진 설정 */
+.profile-img {
+    width: 75px !important;
+    height: 75px !important;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2.5px solid #ffe1e8;
+    margin: 0 auto 20px auto;
+    display: block;
+    box-shadow: 0 4px 12px rgba(232, 108, 141, 0.12);
+}
+
+/* [2] 5단계 결과창 카드 배경에 들어가는 다른 사진 설정 */
 .card-bg-photo::before {
     content: "";
     position: absolute;
@@ -231,12 +235,12 @@ select {
     width: 100%;
     height: 100%;
     
-    /* 본인이 가진 5단계 배경 사진 파일명으로 변경 (예: bg-photo.png) */
-    background-image: url('bg-photo.png'); 
+    /* 5단계 배경용 다른 사진의 파일명을 여기에 적어주세요 */
+    background-image: url('final-background.png'); 
     
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.15;                /* 텍스트가 잘 보이도록 은은한 투명도 유지 */
+    opacity: 0.15; /* 글자가 잘 보이도록 투명도 유지 (0.1 ~ 0.2 추천) */
     z-index: 1;
 }
