@@ -6,10 +6,10 @@ function nextStep(currentStep, nextStep) {
 }
 
 // --- 1단계 버튼 제어 ---
+const step1Card = document.getElementById('step1');
 const yesBtn = document.getElementById('yesBtn');
 const noBtn = document.getElementById('noBtn');
 
-// YES 버튼은 언제 눌러도 바로 2단계로 이동
 yesBtn.addEventListener('click', function() {
     nextStep(1, 2);
 });
@@ -17,29 +17,36 @@ yesBtn.addEventListener('click', function() {
 let isFirstMove = true; 
 
 function handleNoButtonMove(clientX, clientY) {
-    // ★ [핵심 추가] 마우스가 처음 다가왔을 때, 두 버튼의 '현재 위치'를 그대로 고정시킵니다.
+    // 1단계 카드가 활성화 상태일 때만 이탈 연산 수행
+    if (!step1Card.classList.contains('active')) return;
+
+    const btnRect = noBtn.getBoundingClientRect();
+    
+    // ★ [오류 해결의 핵심] 첫 감지 시 박스 찌그러짐 원천 차단
     if (isFirstMove) {
+        // 1. 버튼이 날아가기 직전의 하얀색 카드 박스 실제 높이를 측정하여 그대로 고정합니다.
+        const cardRect = step1Card.getBoundingClientRect();
+        step1Card.style.minHeight = cardRect.height + 'px';
+
         const yesRect = yesBtn.getBoundingClientRect();
         const noRect = noBtn.getBoundingClientRect();
 
-        // 1. YES 버튼을 원래 있던 그 위치(좌표) 그대로 fixed로 고정시켜 버립니다.
-        // 이렇게 하면 NO 버튼이 이탈해도 YES 버튼이 중앙으로 쏠리지 않고 제자리에 멈춰있습니다.
+        // 2. YES 버튼 처음 위치 그대로 화면에 박아버리기
         yesBtn.style.position = 'fixed';
         yesBtn.style.left = yesRect.left + 'px';
         yesBtn.style.top = yesRect.top + 'px';
         yesBtn.style.margin = '0';
 
-        // 2. NO 버튼도 원래 있던 위치에서 자연스럽게 출발하도록 고정합니다.
+        // 3. NO 버튼도 독립 레이아웃으로 변경
         noBtn.style.position = 'fixed';
         noBtn.style.left = noRect.left + 'px';
         noBtn.style.top = noRect.top + 'px';
         noBtn.style.margin = '0';
 
         isFirstMove = false;
-        return; // 첫 감지 때는 위치 스타일만 고정하고, 다음 움직임부터 본격적으로 도망칩니다.
+        return; 
     }
 
-    const btnRect = noBtn.getBoundingClientRect();
     const btnCenterX = btnRect.left + btnRect.width / 2;
     const btnCenterY = btnRect.top + btnRect.height / 2;
     
@@ -47,11 +54,11 @@ function handleNoButtonMove(clientX, clientY) {
     const deltaY = btnCenterY - clientY;
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     
-    const avoidanceRadius = 120; // 마우스 감지 반경
+    const avoidanceRadius = 120; // 마우스 접근 감지 거리
     
     if (distance < avoidanceRadius) {
         const force = (avoidanceRadius - distance) / avoidanceRadius;
-        const forceMult = 160; // 도망치는 힘의 세기
+        const forceMult = 160; 
         
         let moveX = (deltaX / distance) * force * forceMult;
         let moveY = (deltaY / distance) * force * forceMult;
@@ -59,7 +66,7 @@ function handleNoButtonMove(clientX, clientY) {
         let newLeft = btnRect.left + moveX;
         let newTop = btnRect.top + moveY;
         
-        // 화면 이탈 방지 펜스
+        // PC 브라우저 화면 테두리 밖으로 이탈 방지
         const padding = 30;
         if (newLeft < padding) newLeft = padding;
         if (newLeft > window.innerWidth - btnRect.width - padding) {
@@ -75,34 +82,11 @@ function handleNoButtonMove(clientX, clientY) {
     }
 }
 
-// 마우스 및 터치 이벤트 리스너 (기존과 동일)
+// 이벤트 리스너 등록
 window.addEventListener('mousemove', function(e) {
     handleNoButtonMove(e.clientX, e.clientY);
 });
 
-window.addEventListener('touchmove', function(e) {
-    if (e.touches.length > 0) {
-        handleNoButtonMove(e.touches[0].clientX, e.touches[0].clientY);
-    }
-}, { passive: false });
-
-// 마우스 및 터치 이벤트 리스너
-window.addEventListener('mousemove', function(e) {
-    handleNoButtonMove(e.clientX, e.clientY);
-});
-
-window.addEventListener('touchmove', function(e) {
-    if (e.touches.length > 0) {
-        handleNoButtonMove(e.touches[0].clientX, e.touches[0].clientY);
-    }
-}, { passive: false });
-
-// PC 환경용 마우스 이벤트 연결
-window.addEventListener('mousemove', function(e) {
-    handleNoButtonMove(e.clientX, e.clientY);
-});
-
-// 모바일 하이브리드 지원용 터치 이벤트 연결
 window.addEventListener('touchmove', function(e) {
     if (e.touches.length > 0) {
         handleNoButtonMove(e.touches[0].clientX, e.touches[0].clientY);
