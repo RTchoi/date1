@@ -1,3 +1,11 @@
+// ★ [EmailJS 설정 값 입력] 본인의 정보로 채워주세요
+const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY"; 
+const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
+const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+
+// SDK 초기화
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
 let selectedFoodName = "";
 
 function nextStep(currentStep, nextStep) {
@@ -93,21 +101,20 @@ if (dateSubmitBtn) {
     dateSubmitBtn.addEventListener('click', function() {
         const date = document.getElementById('dateInput').value;
         const timeSelect = document.getElementById('timeInput');
-        const timeText = timeSelect.options[timeSelect.selectedIndex].text; // 사용자가 선택한 이쁜 텍스트 통째로 가져오기
+        const timeText = timeSelect.options[timeSelect.selectedIndex].text;
 
         if(!date || !timeSelect.value) {
             alert("날짜와 시간을 모두 골라줘! ⏰");
             return;
         }
         
-        // 최종 화면에 보여줄 텍스트 임시 저장
         timeSelect.dataset.displayText = timeText;
         nextStep(3, 4);
     });
 }
 
 
-// --- 4단계 음식 고르기 ---
+// --- 4단계 음식 고르기 & 이메일 전송 ---
 const foodItems = document.querySelectorAll('.food-item');
 foodItems.forEach(item => {
     item.addEventListener('click', function() {
@@ -127,14 +134,34 @@ if (foodSubmitBtn) {
 
         const dateValue = document.getElementById('dateInput').value;
         const timeSelect = document.getElementById('timeInput');
-        
-        // 3단계에서 저장해둔 깔끔한 시간 텍스트 반영 (ex: 오후 06:30)
         const displayTime = timeSelect.dataset.displayText || timeSelect.value; 
 
+        // 5단계 결과창 텍스트 선반영
         document.getElementById('finalTime').innerText = displayTime;
         document.getElementById('finalDate').innerText = dateValue;
         document.getElementById('finalFood').innerText = selectedFoodName;
 
+        // 5단계로 스텝 이동
         nextStep(4, 5);
+
+        // ★ [핵심 추가] EmailJS로 이메일 전송 파라미터 구성
+        const templateParams = {
+            finalDate: dateValue,
+            finalTime: displayTime,
+            finalFood: selectedFoodName
+        };
+
+        const statusDiv = document.getElementById('emailStatus');
+
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+            .then(function(response) {
+                console.log('이메일 전송 성공!', response.status, response.text);
+                statusDiv.innerText = "성공적으로 내 이메일로 발송 완료! 📬";
+                statusDiv.style.color = "#4a2c3a";
+            }, function(error) {
+                console.error('이메일 전송 실패...', error);
+                statusDiv.innerText = "이메일 전송에 실패했습니다. 코드를 다시 확인해 주세요. 😢";
+                statusDiv.style.color = "#ff4d4d";
+            });
     });
 }
